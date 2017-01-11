@@ -1,5 +1,9 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
+
 
 class PersonForm extends React.Component {
     constructor(props){
@@ -18,11 +22,16 @@ class PersonForm extends React.Component {
       
    }
   
-  handleUserInput = (e, values) => {
-    e.preventDefault()
-    console.log(this.state.userInput)
-  
-      
+
+  setRole = (e,idx,value) => {
+    this.setState({
+      userInput:{
+        ...this.state.userInput,
+        role: value
+      }
+    })
+    setTimeout(()=>{this.props.onChange(this.state.userInput)},200)
+    
   }
   setValue = (e) => {
     this.setState({
@@ -30,48 +39,55 @@ class PersonForm extends React.Component {
         ...this.state.userInput, 
         [e.target.name]:e.target.value
       }
-    })
+      
+    });
+    setTimeout(()=>{this.props.onChange(this.state.userInput)},200)
   }
   render(){
     return(
-      <div>
-      <form 
-      // style={{display:"inline-flex"}}
-        onSubmit={this.handleUserInput}
-        >
-        <TextField
-          hintText="Insert ID"
-          floatingLabelText="ID"
-          onChange={this.setValue}
-          name="id"
-        /><br />
-        <TextField
-          hintText="Insert First Name"
-          floatingLabelText="First Name"
-          onChange={this.setValue}
-          name="firstName"
-        /><br />
-        <TextField
-          hintText="Insert Last Name"
-          floatingLabelText="Last Name"
-          onChange={this.setValue}
-          name="lastName"
-        /><br />
-        <TextField
-          hintText="Insert your email"
-          floatingLabelText="email"
-          onChange={this.setValue}
-          name="email"
-        /><br />
-        <TextField
-          hintText="Your role"
-          floatingLabelText="role"
-          onChange={this.setValue}
-          name="role"
-        />
-        <input type="submit" value="Submit" />
-      </form>
-      </div>
+      
+         
+          <form 
+          // style={{display:"inline-flex"}}
+            onSubmit={this.handleUserInput}
+            >
+    
+            <TextField
+              hintText="Insert First Name"
+              floatingLabelText="First Name"
+              onChange={this.setValue}
+              name="firstName"
+              type="text"
+            /><br />
+            <TextField
+              hintText="Insert Last Name"
+              floatingLabelText="Last Name"
+              onChange={this.setValue}
+              name="lastName"
+              type="text"
+            /><br />
+            <TextField
+              hintText="Insert your email"
+              floatingLabelText="email"
+              onChange={this.setValue}
+              name="email"
+              type="email"
+            /><br />
+            <SelectField
+              floatingLabelText="role"
+              onChange={this.setRole}
+              value={this.state.userInput.role}
+            >
+              <MenuItem value={"SysAdmin"} primaryText="SysAdmin" />
+              <MenuItem value={"Manager"} primaryText="Manager" />
+              <MenuItem value={"Operations"} primaryText="Operations" />
+              <MenuItem value={"Employee"} primaryText="Employee" />
+              <MenuItem value={"Manager"} primaryText="Manager" />
+            </SelectField>
+            
+          </form>
+        
+      
     );
     
   }
