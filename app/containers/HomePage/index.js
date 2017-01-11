@@ -14,7 +14,9 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import axios from 'axios';
-import PersonForm from '../PersonForm';
+import PersonDialog from '../PersonDialog';
+
+
 
 
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -26,22 +28,48 @@ export default class HomePage extends React.Component { // eslint-disable-line r
     
   }
   componentDidMount() {
-    var _this = this;
-    this.serverRequest = 
+    this.refreshUsers();
+  }
+  refreshUsers= ()=> {
+     
       axios
         .get("https://simplybook.herokuapp.com/users")
-        .then(function(result) {    
-          _this.setState({
+        .then((result)=>{    
+          this.setState({
             persons: result.data
           });
-          console.log(result)
-        })
+        
+
+        });
+  }
+  onFormSubmit=(data)=>{
+    data.id = this.state.persons.length + 1;
+  axios.post("https://simplybook.herokuapp.com/user",data)
+  .then((response)=>{
+    console.log(response);
+    
+    this.setState({
+      persons: this.state.persons.concat([data])
+    })
+  });
+  }
+  
+  addOneHundredUsers=()=>{
+    axios
+        .get("https://simplybook.herokuapp.com/add100")
+        .then((result)=>{    
+          this.setState({
+            persons: result.data
+          });
+          console.log(result);
+
+        });
   }
   
   render() {
     return (
       <div>
-        <PersonForm/>
+        <PersonDialog onSubmit={this.onFormSubmit}/>
         <Table>
           
           <TableHeader>
