@@ -7,31 +7,28 @@ import PersonForm from '../PersonForm';
 
 
 export default class DialogExampleSimple extends React.Component {
-        constructor(props){
-      super(props);
-      this.state = {
-         open: false,
-         data:{}
-      };
-            
-    }
-
+  constructor(props){
+    super(props);
+    this.state = {
+       open: false,
+       data:{}
+    };
+  }
+  
+  //open Create Users 
   handleOpen = () => {
     this.setState({open: true});
   };
-
+  
+  //close Create Users
   handleClose = () => {
     this.setState({open: false});
   };
+  
+  //update data to PersonForm
   onFormChange = (data) => {
-      console.log(data)
-      this.setState({data})
-      
-    }
-  /*  closeOnClick=()=>{
-    self.close();
-    return true;
-    }*/
+    this.setState({data});
+  }
     
   render() {
     const actions = [
@@ -47,23 +44,21 @@ export default class DialogExampleSimple extends React.Component {
         keyboardFocused={true}
         onTouchTap={()=>this.props.onSubmit(this.state.data)}
         onClick={this.handleClose}
-        
-
       />,
     ];
 
     return (
       <div>
-        <RaisedButton label="Open Form" onTouchTap={this.handleOpen} />
-            <Dialog
-              title="Dialog Form"
-              actions={actions}
-              modal={false}
-              open={this.state.open}
-              onRequestClose={this.handleClose}
-            >
-              <PersonForm onChange={this.onFormChange}/>
-            </Dialog>
+        <RaisedButton label="Create Users" onTouchTap={this.handleOpen} />
+        <Dialog
+          title="Dialog Form"
+          actions={actions}
+          modal={false}
+          open={this.state.open}
+          onRequestClose={this.handleClose}
+        >
+          <PersonForm onChange={this.onFormChange}/>
+        </Dialog>
       </div>
     );
   }
